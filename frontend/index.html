@@ -1,127 +1,37 @@
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pacific DevOps Music Fest</title>
-    <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-        padding: 20px;
-        color: #f8fafc;
-      }
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Pacific DevOps Music Fest</title>
+          <script src="https://cdn.tailwindcss.com"></script>
+      </head>
+<body class="bg-slate-950 min-h-screen flex items-center justify-center p-6 text-slate-100">
 
-      .card {
-        background: rgba(30, 41, 59, 0.7);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
-        padding: 35px;
-        width: 100%;
-        max-width: 440px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        text-align: center;
-        transition:
-          transform 0.3s ease,
-          box-shadow 0.3s ease;
-      }
+    <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 max-w-sm w-full shadow-2xl hover:shadow-indigo-500/20 transition-all duration-300">
+        <div class="text-5xl mb-4 animate-pulse">🎸</div>
+        
+        <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-500">
+            Pacific DevOps Music Fest
+        </h1>
+        <p class="text-slate-400 text-sm mt-2 mb-6">
+            Plataforma oficial de control de artistas.
+        </p>
 
-      .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 25px 50px rgba(99, 102, 241, 0.2);
-      }
-
-      .card-icon {
-        font-size: 3rem;
-        margin-bottom: 10px;
-        display: inline-block;
-        animation: pulse 2s infinite;
-      }
-
-      .card h1 {
-        font-size: 1.8rem;
-        margin: 10px 0;
-        background: linear-gradient(to right, #38bdf8, #818cf8);
-      }
-
-      .info-item {
-        font-size: 0.9rem;
-        margin: 6px 0;
-        color: #cbd5e1;
-      }
-
-      .info-label {
-        color: #64748b;
-        font-weight: 500;
-      }
-
-      .artist-list {
-        margin-top: 10px;
-        padding-left: 20px;
-        font-size: 0.85rem;
-        color: #38bdf8;
-        line-height: 1.4;
-      }
-
-      .btn {
-        background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        padding: 12px 24px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        width: 100%;
-        transition: opacity 0.2s ease;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-      }
-
-      .btn:hover {
-        opacity: 0.9;
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="card">
-      <div class="card-icon">🎸</div>
-      <h1>Pacific DevOps Music Fest</h1>
-      <p>
-        Plataforma oficial de orquestación y control de artistas del festival.
-      </p>
-
-      <div class="status-container">
-        <div class="status-header">
-          <span class="status-title">Infraestructura</span>
-          <span id="status-badge" class="status-badge">Conectando...</span>
+        <div class="bg-slate-800/50 rounded-xl p-4 mb-6 border border-white/5">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Infraestructura</span>
+                <span id="status-badge" class="text-xs px-2 py-1 rounded-full font-medium bg-slate-950 text-amber-400">Conectando...</span>
+            </div>
+            
+            <div id="api-data" class="space-y-2 text-sm">
+                <div class="text-slate-500 animate-pulse text-center">Esperando respuesta de los servicios...</div>
+            </div>
         </div>
-        <div id="api-data">
-          <div class="info-item" style="text-align: center; color: #64748b">
-            Esperando respuesta de los servicios...
-          </div>
-        </div>
-      </div>
 
-      <button class="btn" onclick="verificarConexion()">
-        Actualizar Estado
-      </button>
+        <button onclick="verificarConexion()" class="w-full bg-gradient-to-r from-indigo-600 to-cyan-500 hover:opacity-90 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-indigo-500/30">
+            Actualizar Estado
+        </button>
     </div>
 
     <script>
@@ -130,44 +40,30 @@
         const dataContainer = document.getElementById("api-data");
 
         badge.innerText = "Consultando...";
-        badge.style.color = "#fbbf24";
+        badge.className = "text-xs px-2 py-1 rounded-full font-medium bg-slate-950 text-amber-400";
 
-        // Usamos tu IP LAN real en lugar de localhost para permitir acceso externo
         fetch("http://192.168.1.18:5000/api/concierto")
-          .then((response) => {
-            if (!response.ok) throw new Error("Error en la API");
-            return response.json();
-          })
+          .then((response) => response.json())
           .then((data) => {
             badge.innerText = "🟢 " + (data.estado || "Online");
-            badge.style.color = "#4ade80";
+            badge.className = "text-xs px-2 py-1 rounded-full font-medium bg-emerald-950/30 text-emerald-400 border border-emerald-900";
 
-            let htmlContent = `
-                        <div class="info-item"><span class="info-label">Base de Datos:</span> 💻 ${data.database_status || "Desconocido"}</div>
-                        <div class="info-item"><span class="info-label">Fecha del Evento:</span> 📅 ${data.fecha || "No definida"}</div>
-                        <div class="info-item" style="margin-top: 12px; font-weight: 600; color: #94a3b8;">Line-up de Artistas:</div>
-                    `;
-
-            if (data.artistas && Array.isArray(data.artistas)) {
-              htmlContent += '<ul class="artist-list">';
-              data.artistas.forEach((artista) => {
-                htmlContent += `<li>${artista}</li>`;
-              });
-              htmlContent += "</ul>";
-            }
-
-            dataContainer.innerHTML = htmlContent;
+            dataContainer.innerHTML = `
+              <div class="flex justify-between"><span class="text-slate-500">DB:</span> <span class="text-slate-200">💻 ${data.database_status}</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Fecha:</span> <span class="text-slate-200">📅 ${data.fecha}</span></div>
+              <div class="mt-4 pt-3 border-t border-white/5 text-center font-semibold text-slate-300">Line-up de Artistas:</div>
+              <ul class="mt-2 space-y-1 text-sky-400 text-center text-xs">
+                ${data.artistas.map(a => `<li>✨ ${a}</li>`).join('')}
+              </ul>
+            `;
           })
-          .catch((error) => {
-            console.error("Error:", error);
-            badge.innerText = "🔴 Desconectado";
-            badge.style.color = "#f87171";
-            dataContainer.innerHTML =
-              '<div class="info-item" style="text-align: center; color: #f87171;">Error de conexión inter-PC.</div>';
+          .catch(() => {
+            badge.innerText = "🔴 Offline";
+            badge.className = "text-xs px-2 py-1 rounded-full font-medium bg-red-950/30 text-red-400 border border-red-900";
+            dataContainer.innerHTML = '<div class="text-red-400 text-center text-xs italic">Error de conexión inter-PC.</div>';
           });
       }
-
       window.onload = verificarConexion;
     </script>
-  </body>
+</body>
 </html>
