@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # Servicio Frontend
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    networks:
+      - festival-net
+
+  # Servicio Backend API
+  backend:
+    build: ./backend
+    depends_on:
+      - db
+    networks:
+      - festival-net
+    environment:
+      - DB_HOST=db
+
+  # Base de datos MySQL
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: festival_db
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - festival-net
+
+networks:
+  festival-net:
+    driver: bridge
+
+volumes:
+  db_data:
