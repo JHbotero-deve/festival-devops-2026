@@ -1,0 +1,24 @@
+name: CI Festival DevOps
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verificar-proyecto:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Validar estructura de archivos
+        run: |
+          test -f frontend/index.html
+          test -f backend/app.py
+          test -f docker-compose.yml
+          echo "Estructura validada correctamente"
+
+      - name: Validar sintaxis de Docker Compose
+        run: docker compose config
